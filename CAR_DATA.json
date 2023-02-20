@@ -1,0 +1,9 @@
+{
+
+"max_vel" : 4,
+"acceleration" : 0.1,
+"deceleration" : 0.05, 
+"rotation_speed" : 2 
+
+}
+
