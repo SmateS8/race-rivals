@@ -35,7 +35,7 @@ MODE = "SP_RACE" # This value holds what should be on the screen right now.
 while True:
     if MODE == "SP_RACE":
         # run SP_RACE
-        SP_Race = race.SinglePlayerRace(car_width=C_WIDHT,car_height=C_HEIGHT,car_image_path=LOCAL_PLAYER_CAR_IMAGE, FPS=FPS)
+        SP_Race = race.SinglePlayerRace(car_width=C_WIDHT,car_height=C_HEIGHT,car_image_path=LOCAL_PLAYER_CAR_IMAGE, FPS=FPS, SCREEN=SCREEN)
 
         SP_Race.main_loop()
         break

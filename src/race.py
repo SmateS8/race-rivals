@@ -17,7 +17,12 @@ CAR_DATA_PATH = "CAR_DATA.json"
 
 
 class SinglePlayerRace():
-    def __init__(self, car_width, car_height, car_image_path,FPS):
+    def __init__(self, car_width, car_height, car_image_path,FPS,SCREEN):
+        #Screen VARs
+        self.SCREEN = SCREEN
+        self.FPS = FPS
+        self.clock = pygame.time.Clock()
+
 
         with open(CAR_DATA_PATH, 'r') as car_data_file:
             car_data = json.load(car_data_file)
@@ -25,21 +30,30 @@ class SinglePlayerRace():
         # * start_x and start_y will use start tile from the map, as soon as I implement it
         self.start_y = 50
         self.player_car = Car(self.start_x, self.start_y, car_width, car_height,
-                              car_data['max_vel'], car_data['acceleration'], car_data['deceleration'], ['rotation_speed'], car_image_path)
+                              car_data['max_vel'], car_data['acceleration'], car_data['deceleration'], car_data['rotation_speed'], car_image_path)
 
         self.car_group = pygame.sprite.Group()
         self.car_group.add(self.player_car)
 
     def main_loop(self):
-        running = True
-        while running == True:
+        racing = True
+        while racing == True:
+            self.clock.tick(self.FPS)
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
-                    running = False
+                    racing = False
 
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    running = False
+                    racing = False
+            # Handle user input
+            pressed_keys = pygame.key.get_pressed()
+            self.player_car.handle_rotation(pressed_keys)
+            self.player_car.handle_forward(pressed_keys)
 
+            # Draw the screen background
+            self.SCREEN.fill((255, 255, 255)) 
+            self.car_group.update()
+            self.car_group.draw(self.SCREEN)            
 
-            pygame.display.update()
+            pygame.display.flip()
