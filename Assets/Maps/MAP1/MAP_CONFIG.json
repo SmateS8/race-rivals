@@ -1,0 +1,14 @@
+{ 
+    "H_STRAIGHT" : 0,
+    "V_STRAIGHT" : 1,
+    "D_R_TURN" : 2,
+    "D_L_TURN" : 3,
+    "R_U_TURN" : 4,
+    "R_D_TURN" : 5,
+    "U_R_TURN" : 6,
+    "U_L_TURN" : 7,
+    "L_D_TURN" : 8,
+    "L_U_TURN" : 9,
+    "SLOW_DOWN_BG" : 10
+
+}
