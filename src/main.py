@@ -6,6 +6,7 @@ import pygame
 import json
 import os
 import sys
+import ctypes
 
 import race
 import car
@@ -15,10 +16,11 @@ import car
 pygame.init()
 
 # Set up the screen
-SCREEN_WIDTH, SCREEN_HEIGHT = 720, 480
-SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+if os.name == 'nt': #If you are running windows
+    ctypes.windll.user32.SetProcessDPIAware() #There is weird bug on larger screen sizes, this will fix that.
+SCREEN_WIDTH, SCREEN_HEIGHT = 1920, 1080
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption("Race Rivals")
-
 # ----VARIABLES----
 FPS = 120
 # Resolutions & sizes

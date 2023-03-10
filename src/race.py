@@ -18,6 +18,9 @@ CAR_DATA_PATH = "CAR_DATA.json"
 
 class SinglePlayerRace():
     def __init__(self, car_width, car_height, car_image_path,FPS,SCREEN):
+        #Hiding mouse cursor
+        pygame.mouse.set_visible(False)
+        print(pygame.mouse.get_visible())
         #Screen VARs
         self.SCREEN = SCREEN
         self.FPS = FPS
