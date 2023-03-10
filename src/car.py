@@ -97,8 +97,19 @@ class Car(pygame.sprite.Sprite):
         self.prev_rect = self.rect
         self.rect = self.image.get_rect()
         self.rect.center = self.prev_rect.center
-        # Moving the image
-        self.precise_x += self.speed[0]
-        self.precise_y += self.speed[1]
+        # Moving the rectangle, and preventing from ecaping the screen
+        if self.speed[0] > 0: # X axis
+            if not (self.precise_x + self.speed[0] > pygame.display.get_surface().get_width() - self.rect.width/2):
+                self.precise_x += self.speed[0]
+        elif self.speed[0] < 0:
+            if not (self.precise_x + self.speed[0] < 0 + self.rect.width/2):
+                self.precise_x += self.speed[0]
+        if self.speed[1] > 0: # Y axis
+            if not (self.precise_y + self.speed[1] > pygame.display.get_surface().get_height() - self.rect.height/2):
+                self.precise_y += self.speed[1]
+        elif self.speed[1] < 0:
+            if not (self.precise_y + self.speed[1] < 0 + self.rect.height/2):
+                self.precise_y += self.speed[1]
+
         self.rect.centerx = int(self.precise_x)
         self.rect.centery = int(self.precise_y)
