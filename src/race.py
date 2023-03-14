@@ -9,10 +9,11 @@ import os
 
 import json
 from car import Car
+from map import Map
 
 # ----VARIABLES----
 CAR_DATA_PATH = "CAR_DATA.json"
-
+MAP1_FOLDER_PATH = os.path.join("Assets","Maps", "MAP1")
 # ----CLASSES----
 
 
@@ -20,7 +21,6 @@ class SinglePlayerRace():
     def __init__(self, car_width, car_height, car_image_path,FPS,SCREEN):
         #Hiding mouse cursor
         pygame.mouse.set_visible(False)
-        print(pygame.mouse.get_visible())
         #Screen VARs
         self.SCREEN = SCREEN
         self.FPS = FPS
@@ -29,6 +29,7 @@ class SinglePlayerRace():
 
         with open(CAR_DATA_PATH, 'r') as car_data_file:
             car_data = json.load(car_data_file)
+
         self.start_x = 50
         # * start_x and start_y will use start tile from the map, as soon as I implement it
         self.start_y = 50
@@ -37,6 +38,9 @@ class SinglePlayerRace():
 
         self.car_group = pygame.sprite.Group()
         self.car_group.add(self.player_car)
+
+        #Creating Map
+        map = Map(MAP1_FOLDER_PATH, 120)
 
     def main_loop(self):
         racing = True
