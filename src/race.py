@@ -33,7 +33,7 @@ class SinglePlayerRace():
         self.start_x = 50
         # * start_x and start_y will use start tile from the map, as soon as I implement it
         self.start_y = 50
-        self.player_car = Car(self.start_x, self.start_y, car_width, car_height,
+        self.player_car = Car(self.start_x, self.start_y, car_width, car_height, car_data['offroad_vel'],
                               car_data['max_vel'], car_data['acceleration'], car_data['deceleration'], car_data['rotation_speed'], car_image_path)
 
         self.car_group = pygame.sprite.Group()
@@ -57,6 +57,13 @@ class SinglePlayerRace():
             pressed_keys = pygame.key.get_pressed()
             self.player_car.handle_rotation(pressed_keys)
             self.player_car.handle_forward(pressed_keys)
+
+            #Handle car off-roading
+            offroad = False
+            for rect in self.map.slow_down_tiles:
+                if rect.collidepoint(self.player_car.rect.center):
+                    offroad = True
+            self.player_car.use_offroad_vel(offroad)
 
             # Draw the screen background
             self.SCREEN.fill((255, 255, 255)) 

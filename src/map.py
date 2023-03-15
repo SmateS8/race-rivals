@@ -43,6 +43,7 @@ class Map():
                 self.map_layout.append(row)
 
         #Loading map layout into surface
+        self.slow_down_tiles = [] # List of rectangle on which when collided the car will slow down
         self.map_surface = pygame.Surface((self.SCREEN_SURFACE.get_width(),self.SCREEN_SURFACE.get_height()))
         row_index = 0
         for row in self.map_layout:
@@ -50,13 +51,9 @@ class Map():
             for column in row:
                 Tile_name = list(self.TILES_CONFIG.keys())[list(self.TILES_CONFIG.values()).index(int(column))]
                 self.map_surface.blit(self.TILES[Tile_name], (self.TILE_SIZE * column_index, self.TILE_SIZE * row_index))
+                if Tile_name == 'SLOW_DOWN_BG':
+                    self.slow_down_tiles.append(pygame.Rect((self.TILE_SIZE * column_index, self.TILE_SIZE * row_index), (tile_size,tile_size)))
                 column_index +=1
             row_index +=1
-
-
-
-        
-            
-
 
 

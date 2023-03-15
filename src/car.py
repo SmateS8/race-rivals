@@ -9,7 +9,7 @@ import math
 
 # This is the car that will be controled by local user
 class Car(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, max_vel, acceleration, deceleration, rotation_speed, car_image):
+    def __init__(self, x, y, width, height, offroad_vel ,max_vel, acceleration, deceleration, rotation_speed, car_image):
         super().__init__()
         self.original_car = pygame.image.load(car_image)
         self.original_car = pygame.transform.scale(
@@ -24,7 +24,7 @@ class Car(pygame.sprite.Sprite):
 
         self.vel = 0  # This is the final speed of the car
         self.max_vel = max_vel
-        self.max_squared = max_vel**2
+        self.velocities = [max_vel, offroad_vel] #Holds default values for both speeds
         self.accel = acceleration
         self.decel = deceleration
         self.rot_speed = rotation_speed
@@ -89,6 +89,13 @@ class Car(pygame.sprite.Sprite):
             self.speed[1] *= (-1)
         else:
             self.speed[1] = math.sqrt(self.speed[1])
+
+
+    def use_offroad_vel(self, offroad):
+        if offroad == True:
+            self.max_vel = self.velocities[1]
+        else:
+            self.max_vel = self.velocities[0]
 
             
     def update(self):
