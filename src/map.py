@@ -11,30 +11,48 @@ import csv
 # ----CLASSES----
 
 class Map():
-    def __init__(self, map_folder_path, tile_size):
-        
+    def __init__(self, map_folder_path, tile_size, SCREEN):
+        self.TILE_SIZE = tile_size
+        self.SCREEN = SCREEN
+        self.SCREEN_SURFACE = pygame.display.get_surface()
+
         with open(os.path.join(map_folder_path, "MAP_CONFIG.json")) as map_config_file:
             MAP_CONFIG = json.load(map_config_file)
-        TILES_CONFIG = MAP_CONFIG["tiles_config"]
-    
+        self.TILES_CONFIG = MAP_CONFIG["tiles_config"]
+
         #Loading tile images
         tiles_path = os.path.join(map_folder_path, "Tiles")
-        TILES = {}
-        TILES["H_STRAIGHT"] = pygame.image.load(os.path.join(tiles_path, "H_STRAIGHT.png"))
-        TILES["V_STRAIGHT"] = pygame.transform.rotate(TILES["H_STRAIGHT"],90)
-        TILES["R_D_TURN"] = pygame.image.load(os.path.join(tiles_path, "R_D_TURN.png"))
-        TILES["R_U_TURN"] = pygame.transform.rotate(TILES["R_D_TURN"], -90)
-        TILES["L_D_TURN"] = pygame.transform.rotate(TILES["R_D_TURN"], 90)
-        TILES["L_U_TURN"] = pygame.transform.rotate(TILES["R_D_TURN"], 180)
+        self.TILES = {}
+        self.TILES["H_STRAIGHT"] = pygame.image.load(os.path.join(tiles_path, "H_STRAIGHT.png"))
+        self.TILES["V_STRAIGHT"] = pygame.transform.rotate(self.TILES["H_STRAIGHT"],90)
+        self.TILES["R_D_TURN"] = pygame.image.load(os.path.join(tiles_path, "R_D_TURN.png"))
+        self.TILES["R_U_TURN"] = pygame.transform.rotate(self.TILES["R_D_TURN"], 90)
+        self.TILES["L_D_TURN"] = pygame.transform.rotate(self.TILES["R_D_TURN"], -90)
+        self.TILES["L_U_TURN"] = pygame.transform.rotate(self.TILES["R_D_TURN"], 180)
+        self.TILES["SLOW_DOWN_BG"] = pygame.image.load(os.path.join(tiles_path, "SLOW_DOWN_BG.png"))
+        self.TILES["START_FINISH"] = pygame.image.load(os.path.join(tiles_path, "START_FINISH.png"))
+        #Resizing Tiles
+        for tile in self.TILES:
+            self.TILES[tile] = pygame.transform.scale(self.TILES[tile],(self.TILE_SIZE, self.TILE_SIZE))
 
         #Loading the map layout
-        map_layout = []
+        self.map_layout = []
         with open(os.path.join(map_folder_path, "MAP_LAYOUT.csv"), newline='') as map_layout_file:
             data = csv.reader(map_layout_file)
             for row in data:
-                map_layout.append(row)
+                self.map_layout.append(row)
 
-        print(map_layout)
+        #Loading map layout into surface
+        self.map_surface = pygame.Surface((self.SCREEN_SURFACE.get_width(),self.SCREEN_SURFACE.get_height()))
+        row_index = 0
+        for row in self.map_layout:
+            column_index = 0 
+            for column in row:
+                Tile_name = list(self.TILES_CONFIG.keys())[list(self.TILES_CONFIG.values()).index(int(column))]
+                self.map_surface.blit(self.TILES[Tile_name], (self.TILE_SIZE * column_index, self.TILE_SIZE * row_index))
+                column_index +=1
+            row_index +=1
+
 
 
         

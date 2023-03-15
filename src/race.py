@@ -40,7 +40,7 @@ class SinglePlayerRace():
         self.car_group.add(self.player_car)
 
         #Creating Map
-        map = Map(MAP1_FOLDER_PATH, 120)
+        self.map = Map(MAP1_FOLDER_PATH, 120, self.SCREEN)
 
     def main_loop(self):
         racing = True
@@ -61,6 +61,7 @@ class SinglePlayerRace():
             # Draw the screen background
             self.SCREEN.fill((255, 255, 255)) 
             self.car_group.update()
+            self.SCREEN.blit(self.map.map_surface,(0,0))
             self.car_group.draw(self.SCREEN)            
 
             pygame.display.flip()
