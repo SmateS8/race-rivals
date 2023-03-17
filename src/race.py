@@ -14,6 +14,7 @@ from map import Map
 # ----VARIABLES----
 CAR_DATA_PATH = "CAR_DATA.json"
 MAP1_FOLDER_PATH = os.path.join("Assets","Maps", "MAP1")
+TILE_SIZE = 120
 # ----CLASSES----
 
 
@@ -26,21 +27,25 @@ class SinglePlayerRace():
         self.FPS = FPS
         self.clock = pygame.time.Clock()
 
+        #Creating Map
+        self.map = Map(MAP1_FOLDER_PATH, TILE_SIZE, self.SCREEN)
 
         with open(CAR_DATA_PATH, 'r') as car_data_file:
             car_data = json.load(car_data_file)
 
-        self.start_x = 50
-        # * start_x and start_y will use start tile from the map, as soon as I implement it
-        self.start_y = 50
-        self.player_car = Car(self.start_x, self.start_y, car_width, car_height, car_data['offroad_vel'],
+        self.start_x = self.map.start_finish_tile[0] + TILE_SIZE/2 
+        self.start_y = self.map.start_finish_tile[1] + TILE_SIZE/2 
+        #self.start_y = 960 + 60 -
+        #self.start_x = 
+
+
+        self.player_car = Car(self.start_x, self.start_y,self.map.car_start_angle, car_width, car_height, car_data['offroad_vel'],
                               car_data['max_vel'], car_data['acceleration'], car_data['deceleration'], car_data['rotation_speed'], car_image_path)
 
         self.car_group = pygame.sprite.Group()
         self.car_group.add(self.player_car)
 
-        #Creating Map
-        self.map = Map(MAP1_FOLDER_PATH, 120, self.SCREEN)
+
 
     def main_loop(self):
         racing = True

@@ -6,7 +6,9 @@
     "R_U_TURN" : 4,
     "L_U_TURN" : 5,
     "SLOW_DOWN_BG" : 10,
-    "START_FINISH" : 11}
+    "START_FINISH" : 11},
+    "car_start_angle" : 90
+    
 
 
 }

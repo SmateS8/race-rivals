@@ -20,6 +20,8 @@ class Map():
             MAP_CONFIG = json.load(map_config_file)
         self.TILES_CONFIG = MAP_CONFIG["tiles_config"]
 
+        self.car_start_angle = MAP_CONFIG['car_start_angle'] # Used in race.py for start angle
+
         #Loading tile images
         tiles_path = os.path.join(map_folder_path, "Tiles")
         self.TILES = {}
@@ -53,6 +55,8 @@ class Map():
                 self.map_surface.blit(self.TILES[Tile_name], (self.TILE_SIZE * column_index, self.TILE_SIZE * row_index))
                 if Tile_name == 'SLOW_DOWN_BG':
                     self.slow_down_tiles.append(pygame.Rect((self.TILE_SIZE * column_index, self.TILE_SIZE * row_index), (tile_size,tile_size)))
+                if Tile_name == 'START_FINISH':
+                    self.start_finish_tile = [self.TILE_SIZE*column_index, self.TILE_SIZE*row_index]
                 column_index +=1
             row_index +=1
 

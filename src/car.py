@@ -9,7 +9,7 @@ import math
 
 # This is the car that will be controled by local user
 class Car(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, offroad_vel ,max_vel, acceleration, deceleration, rotation_speed, car_image):
+    def __init__(self, x, y, angle,width, height, offroad_vel ,max_vel, acceleration, deceleration, rotation_speed, car_image):
         super().__init__()
         self.original_car = pygame.image.load(car_image)
         self.original_car = pygame.transform.scale(
@@ -28,7 +28,7 @@ class Car(pygame.sprite.Sprite):
         self.accel = acceleration
         self.decel = deceleration
         self.rot_speed = rotation_speed
-        self.rot = 0  # 0 degrees is car facing down.
+        self.rot = angle  # 0 degrees is car facing down.
         self.speed = [0, 0]
         # -1 to 1, depends on direction. Absolute x + y = 1. Default 0 degrees --> x = 0 ; y = -1
         self.direction = [0, -1]
