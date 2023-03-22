@@ -24,6 +24,7 @@ class SinglePlayerRace():
         pygame.mouse.set_visible(False)
         #Screen VARs
         self.SCREEN = SCREEN
+        self.SCREEN_WIDTH, self.SCREEN_HEIGHT = self.SCREEN.get_size()
         self.FPS = FPS
         self.clock = pygame.time.Clock()
 
@@ -35,8 +36,6 @@ class SinglePlayerRace():
 
         self.start_x = self.map.start_finish_tile[0] + TILE_SIZE/2 
         self.start_y = self.map.start_finish_tile[1] + TILE_SIZE/2 
-        #self.start_y = 960 + 60 -
-        #self.start_x = 
 
 
         self.player_car = Car(self.start_x, self.start_y,self.map.car_start_angle, car_width, car_height, car_data['offroad_vel'],
@@ -46,8 +45,32 @@ class SinglePlayerRace():
         self.car_group.add(self.player_car)
 
 
+    def countdown(self):
+        strings = ["3","2","1","GO!"]
+
+        self.SCREEN.fill((255, 255, 255)) #* Drawing some bg, on top of which there will be a count down  
+        self.SCREEN.blit(self.map.map_surface,(0,0))
+        self.car_group.update()
+        self.car_group.draw(self.SCREEN) 
+        pygame.display.flip()
+        font = pygame.font.SysFont("Comic Sans MS", 120)
+        for count in range(4):
+            self.SCREEN.fill((255, 255, 255)) #* Drawing some bg, on top of which there will be a count down  
+            self.SCREEN.blit(self.map.map_surface,(0,0))
+            self.car_group.update()
+            self.car_group.draw(self.SCREEN) 
+
+
+            text = font.render(strings[count],True,(255,255,255))
+            pos_rect = text.get_rect(center=(self.SCREEN_WIDTH/2,self.SCREEN_HEIGHT/2))
+            self.SCREEN.blit(text,pos_rect)
+
+            pygame.display.update()
+            pygame.time.wait(900)
+
 
     def main_loop(self):
+
         racing = True
         while racing == True:
             self.clock.tick(self.FPS)
@@ -70,10 +93,16 @@ class SinglePlayerRace():
                     offroad = True
             self.player_car.use_offroad_vel(offroad)
 
-            # Draw the screen background
+            # Draw the screen
             self.SCREEN.fill((255, 255, 255)) 
             self.car_group.update()
             self.SCREEN.blit(self.map.map_surface,(0,0))
-            self.car_group.draw(self.SCREEN)            
+            self.car_group.draw(self.SCREEN)
+
+
+            #checkpoints = self.map.checkpoints #* Draws checkpoints 
+            #for checkblock in checkpoints:
+            #    for i in checkblock[0]:
+            #       pygame.draw.rect(self.SCREEN,(255,255,255),i)            
 
             pygame.display.flip()

@@ -14,9 +14,10 @@ import car
 
 # ----INIT PYGAME----
 pygame.init()
+pygame.font.init()
 
 # Set up the screen
-if os.name == 'nt': #If you are running windows
+if os.name == 'nt': #If you are running windowsw
     ctypes.windll.user32.SetProcessDPIAware() #There is weird bug on larger screen sizes, this will fix that.
 SCREEN_WIDTH, SCREEN_HEIGHT = 1920, 1080
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
@@ -38,7 +39,7 @@ while True:
     if MODE == "SP_RACE":
         # run SP_RACE
         SP_Race = race.SinglePlayerRace(car_width=C_WIDHT,car_height=C_HEIGHT,car_image_path=LOCAL_PLAYER_CAR_IMAGE, FPS=FPS, SCREEN=SCREEN)
-
+        SP_Race.countdown()
         SP_Race.main_loop()
         break
 
