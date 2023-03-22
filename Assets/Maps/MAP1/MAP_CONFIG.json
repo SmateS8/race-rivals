@@ -7,7 +7,11 @@
     "L_U_TURN" : 5,
     "SLOW_DOWN_BG" : 10,
     "START_FINISH" : 11},
-    "car_start_angle" : 90
+
+    "car_start_angle" : 90,
+
+    "checkpoints" : [[[14,3]],[[9,7],[10,7]],[[3,4],[4,4],[5,4]]]
+
     
 
 

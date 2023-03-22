@@ -60,4 +60,15 @@ class Map():
                 column_index +=1
             row_index +=1
 
+        #Loading map checkpoints, so players don't make shortcuts on the map
+        CHECKPOINTS = MAP_CONFIG["checkpoints"]
+        self.checkpoints = [] #List of lists, each list has list of rectangles and value if the chcekpoint was passed
 
+        for blocks_number, checkblocks in enumerate(CHECKPOINTS):
+            self.checkpoints.append([[],"false"])
+            for block_number ,block in enumerate(checkblocks):
+                self.checkpoints[blocks_number][0].append(pygame.Rect(block[0]*self.TILE_SIZE,block[1]*self.TILE_SIZE ,self.TILE_SIZE, self.TILE_SIZE))
+
+        def restore_checkpoints(self,checkpoints):
+            for checkblock in checkpoints:
+                checkblock[1] = 0   
