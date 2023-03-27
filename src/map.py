@@ -65,10 +65,11 @@ class Map():
         self.checkpoints = [] #List of lists, each list has list of rectangles and value if the chcekpoint was passed
 
         for blocks_number, checkblocks in enumerate(CHECKPOINTS):
-            self.checkpoints.append([[],"false"])
+            self.checkpoints.append([[],False])
             for block_number ,block in enumerate(checkblocks):
                 self.checkpoints[blocks_number][0].append(pygame.Rect(block[0]*self.TILE_SIZE,block[1]*self.TILE_SIZE ,self.TILE_SIZE, self.TILE_SIZE))
 
-        def restore_checkpoints(self,checkpoints):
-            for checkblock in checkpoints:
-                checkblock[1] = 0   
+    def restore_checkpoints(self,checkpoints):
+        for checkblock in checkpoints:
+            checkblock[1] = False 
+        return checkpoints  
