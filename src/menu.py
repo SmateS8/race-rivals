@@ -6,15 +6,15 @@
 # ----IMPORTS----
 import pygame
 import pygame_textinput as pg_input
-import os
+import requests
 
 # ------VARS-----
 MAX_PASSWORD_LEN = 12
 MAX_USERNAME_LEN = 7
 
 AUTH_SERVER = "http://localhost:5000"
-LOGIN = "/login"
-REGISTER = "/register"
+LOGIN_ENDPOINT = "/login"
+REGISTER_ENDPOINT = "/register"
 
 # ----CLASSES----
 
@@ -134,9 +134,9 @@ class LoginMenu():
         #Text inputs
         self.active_input = 0# Username, password. Two inputs are 
 
-        manager = pg_input.TextInputManager(validator = lambda input: len(input) <= 7)
+        manager = pg_input.TextInputManager(validator = lambda input: len(input) <= MAX_USERNAME_LEN)
         self.login_username = pg_input.TextInputVisualizer(manager=manager)
-        manager = pg_input.TextInputManager(validator = lambda input: len(input) <= 12)
+        manager = pg_input.TextInputManager(validator = lambda input: len(input) <= MAX_PASSWORD_LEN)
         self.login_password = pg_input.TextInputVisualizer(manager=manager)
 
         self.buttons_labels = ["Login","Register","EXIT GAME"]
@@ -185,7 +185,18 @@ class LoginMenu():
                                 if mode_to_return == "EXIT":
                                     running = False
                                 elif mode_to_return == "LOGIN":
-                                    pass #!Here should the auth call go
+                                    username = self.login_username.value
+                                    password = self.login_password.value
+                                    data = {
+                                        "username":username,
+                                        "password":password
+                                    }
+                                    response = requests.get(AUTH_SERVER+LOGIN_ENDPOINT,json = data)
+                                    if response.json() == True:
+                                        running = False
+                                        mode_to_return = "START_MENU"
+                                    else:
+                                        self.error_text_surface = self.error_font.render('Incorrect login', False, (255, 0, 0))
 
 
 
