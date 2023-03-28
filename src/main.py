@@ -34,13 +34,18 @@ MENU_IMAGE_PATH = os.path.join("Assets","MENU_BACKGROUND.png")
 # EXIT = exit the game
 # SP_RACE = singleplayer race
 # START_MENU = start menu 
-MODE = "START_MENU" # This value holds what should be on the screen right now.
+# LOGIN_MENU = Login/register menu
+MODE = "LOGIN_MENU" # This value holds what should be on the screen right now.
 
 
 while True:
     if MODE == "START_MENU":
         S_MENU = menu.StartMenu(SCREEN,MENU_IMAGE_PATH,FPS)
         MODE = S_MENU.main_loop()
+    if MODE == "LOGIN_MENU":
+        S_MENU = menu.LoginMenu(SCREEN,MENU_IMAGE_PATH,FPS)
+        MODE = S_MENU.main_loop()
+        
     if MODE == "SP_RACE":
         # run SP_RACE
         SP_Race = race.SinglePlayerRace(car_width=C_WIDHT,car_height=C_HEIGHT,car_image_path=LOCAL_PLAYER_CAR_IMAGE, FPS=FPS, SCREEN=SCREEN)
