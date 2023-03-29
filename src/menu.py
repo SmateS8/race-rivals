@@ -141,7 +141,7 @@ class LoginMenu():
 
         self.buttons_labels = ["Login","Register","EXIT GAME"]
         self.buttons_modes = ["LOGIN","REGISTER", "EXIT"] #Iam not going to be using modes though, only the "EXIT" one
-        buttons_positions = [[760,800],[960,800],[860,900]]
+        buttons_positions = [[750,800],[970,800],[860,900]]
 
         self.buttons = []
         for index, button_title in enumerate(self.buttons_labels):
@@ -197,6 +197,22 @@ class LoginMenu():
                                         mode_to_return = "START_MENU"
                                     else:
                                         self.error_text_surface = self.error_font.render('Incorrect login', False, (255, 0, 0))
+                                elif mode_to_return == "REGISTER":
+                                    username = self.login_username.value
+                                    password = self.login_password.value
+                                    data = {
+                                        "username":username,
+                                        "password":password
+                                    }
+                                    response = requests.post(AUTH_SERVER+REGISTER_ENDPOINT,json = data)
+                                    if response.json() == True:
+                                        running = False
+                                        mode_to_return = "START_MENU"
+                                    elif response.json()["message"] == "special chars":
+                                        self.error_text_surface = self.error_font.render('Can\'t constain special characters', False, (255, 0, 0))
+                                    elif response.json()["message"] == "username exists":
+                                        self.error_text_surface = self.error_font.render('This username is already taken', False, (255, 0, 0))                                       
+
 
 
 
