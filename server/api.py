@@ -7,10 +7,26 @@ app = Flask(__name__)
 api = Api(app)
 
 DB_PATH = "users.txt"
+COINS_PATH = "coins.txt"
 INVALID_CHARS = ["/n",":"]
 
 USR_LEN = 7
 PWD_LEN = 12
+
+
+def load_coins(path):
+    with open(path) as f:
+        stored_coins = f.readlines()
+        for i in enumerate(stored_coins):
+            stored_coins[i[0]] = i[1][:-1]
+    return stored_coins
+
+def get_balance(users,username):
+    for user in users:
+        name, coins = user.split(":")
+        if name == username:
+            break
+    return coins
 
 def load_credentials(path):
     with open(path) as f:
@@ -69,7 +85,12 @@ class Register(Resource):
         else:
             return {"register":False, "message":"username exists"}
 
-
+class Coins(Resource):
+    def get(self,username):
+        coins = load_coins(COINS_PATH)
+        balance = get_balance(coins, username)
+        return {"balance":balance}
+        
 
 
 
