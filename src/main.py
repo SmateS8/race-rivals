@@ -29,6 +29,7 @@ FPS = 120
 C_WIDHT, C_HEIGHT =  40,64 #Car size
 LOCAL_PLAYER_CAR_IMAGE = os.path.join("Assets","car.png")
 MENU_IMAGE_PATH = os.path.join("Assets","MENU_BACKGROUND.png")
+COIN_IMAGE_PATH = os.path.join("Assets","COIN.png")
 
 
 # EXIT = exit the game
@@ -40,11 +41,11 @@ MODE = "LOGIN_MENU" # This value holds what should be on the screen right now.
 
 while True:
     if MODE == "START_MENU":
-        S_MENU = menu.StartMenu(SCREEN,MENU_IMAGE_PATH,FPS)
+        S_MENU = menu.StartMenu(SCREEN,USERNAME,MENU_IMAGE_PATH,COIN_IMAGE_PATH,FPS)
         MODE = S_MENU.main_loop()
     if MODE == "LOGIN_MENU":
-        S_MENU = menu.LoginMenu(SCREEN,MENU_IMAGE_PATH,FPS)
-        MODE = S_MENU.main_loop()
+        L_MENU = menu.LoginMenu(SCREEN,MENU_IMAGE_PATH,FPS)
+        MODE,USERNAME = L_MENU.main_loop()
         
     if MODE == "SP_RACE":
         # run SP_RACE

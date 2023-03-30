@@ -12,7 +12,7 @@ import requests
 MAX_PASSWORD_LEN = 12
 MAX_USERNAME_LEN = 7
 
-AUTH_SERVER = "http://localhost:5000"
+AUTH_SERVER = "http://127.0.0.1:5000"
 LOGIN_ENDPOINT = "/login"
 REGISTER_ENDPOINT = "/register"
 
@@ -44,7 +44,7 @@ class Button(pygame.sprite.Sprite):
         return self.button_mode
 
 class StartMenu():
-    def __init__(self,SCREEN,MENU_IMAGE_PATH,FPS):
+    def __init__(self,SCREEN,USERNAME,MENU_IMAGE_PATH,COIN_IMAGE_PATH,FPS):
         #Show the cursor
         pygame.mouse.set_visible(True)
 
@@ -55,6 +55,11 @@ class StartMenu():
         self.clock = pygame.time.Clock()
         self.buttons_width = 200
         self.buttons_height = 75
+        
+        font = pygame.font.SysFont('calibri',64)
+        self.COIN = pygame.transform.scale(pygame.image.load(COIN_IMAGE_PATH),(64,64))
+        COINS = requests.get(AUTH_SERVER+'/balance/'+USERNAME).json()['balance']
+        self.coin_text_surface = font.render(COINS, True, (255, 255, 255))
 
         self.buttons_labels = ["Singleplayer","Multiplayer","Garage","Quit the game"]
         self.buttons_modes = ["SP_RACE","MP_RACE","GARAGE","EXIT"]
@@ -90,9 +95,12 @@ class StartMenu():
                             if button.is_clicked(mouse_pos):
                                 mode_to_return = button.return_mode()
                                 running = False
+            
 
             self.SCREEN.blit(self.MENU_IMAGE,(0,0))
             self.buttons_group.draw(self.SCREEN)
+            self.SCREEN.blit(self.COIN,(1700,50))
+            self.SCREEN.blit(self.coin_text_surface,(1775,50))
             #pygame.draw.rect(self.SCREEN, (255,255,255),(785,490,350,100))
             pygame.display.flip()
         
@@ -231,7 +239,7 @@ class LoginMenu():
         
         
         
-        return mode_to_return
+        return mode_to_return, username
 
 
 
