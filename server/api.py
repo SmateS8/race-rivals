@@ -21,6 +21,25 @@ def load_coins(path):
             stored_coins[i[0]] = i[1][:-1]
     return stored_coins
 
+def create_balance(path, username, balance):
+        with open(path,'a') as f:
+            f.write(f"{username}:{balance}\n")
+
+
+def set_balance(path, username, balance):
+    stored_coins = load_coins(path)
+    for index, line in enumerate(stored_coins):
+        user, coins = line.split(":")
+        if user == username:
+            stored_coins[index] = f"{username}:{balance}"
+            break
+    for i in range(len(stored_coins)):
+        stored_coins[i] = stored_coins[i] + '\n'
+    print(stored_coins)
+    with open(path,'w') as f:
+        f.writelines(stored_coins)
+    
+
 def get_balance(users,username):
     for user in users:
         name, coins = user.split(":")
@@ -79,23 +98,36 @@ class Register(Resource):
         if not check_username(DB_PATH,username):
             if valid_credentials(username,password):
                 add_credentials(DB_PATH,username,password)
+                create_balance(COINS_PATH,username,0)
                 return True, 201
             else:
                 return {"register":False, "message":"special chars"}
         else:
             return {"register":False, "message":"username exists"}
 
-class Coins(Resource):
+class GetCoins(Resource):
     def get(self,username):
         coins = load_coins(COINS_PATH)
         balance = get_balance(coins, username)
-        return {"balance":balance}
+        if check_username(DB_PATH,username):
+            return {"balance":balance}
+        return {"balance":False, "message":"user unknown"}
+class SetCoins(Resource):    
+    def post(self,username,amount):
+        if not check_username(DB_PATH,username):
+            return {"balance":False, "message":"user unknown"}
+        set_balance(COINS_PATH,username,amount)
+        stored_coins = load_coins(COINS_PATH)
+        balance = get_balance(stored_coins,username)
+        return {"balance": balance}
+
         
 
 
 
 api.add_resource(Login,'/login')
 api.add_resource(Register,'/register')
+api.add_resource(GetCoins,'/balance/<string:username>')
 
 # @app.route('/login', methods=['GET'])
 # def login():
@@ -110,4 +142,4 @@ api.add_resource(Register,'/register')
 
 
 if __name__ == "__main__":
-     app.run(debug = True)
+    app.run(debug = True)

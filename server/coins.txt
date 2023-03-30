@@ -1,2 +1,1 @@
-matyas:20
-ADAM:60
+test:100
