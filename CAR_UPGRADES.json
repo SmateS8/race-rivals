@@ -1,0 +1,54 @@
+{
+    "engine_upgrades": [
+        {
+            "level": 0,
+            "name": "Stock Engine",
+            "top_speed": 2.4,
+            "price": 0
+        },
+        {
+            "level": 1,
+            "name": "Basic Engine",
+            "top_speed": 3.0,
+            "price": 15
+        },
+        {
+            "level": 2,
+            "name": "Improved Engine",
+            "top_speed": 3.6,
+            "price": 27
+        },
+        {
+            "level": 3,
+            "name": "Performance Engine",
+            "top_speed": 4.5,
+            "price": 35
+        }
+    ],
+    "gearbox_upgrades": [
+        {
+            "level": 0,
+            "name": "Stock Gearbox",
+            "acceleration": 0.05,
+            "price": 0
+        },
+        {
+            "level": 1,
+            "name": "Basic Gearbox",
+            "acceleration": 0.1,
+            "price": 10
+        },
+        {
+            "level": 2,
+            "name": "Improved Gearbox",
+            "acceleration": 0.35,
+            "price": 17
+        },
+        {
+            "level": 3,
+            "name": "Performance Gearbox",
+            "acceleration": 0.7,
+            "price": 25
+        }
+    ]
+}

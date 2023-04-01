@@ -42,10 +42,14 @@ MODE = "LOGIN_MENU" # This value holds what should be on the screen right now.
 while True:
     if MODE == "START_MENU":
         S_MENU = menu.StartMenu(SCREEN,USERNAME,MENU_IMAGE_PATH,COIN_IMAGE_PATH,FPS)
-        MODE = S_MENU.main_loop()
+        MODE,COINS = S_MENU.main_loop()
     if MODE == "LOGIN_MENU":
         L_MENU = menu.LoginMenu(SCREEN,MENU_IMAGE_PATH,FPS)
         MODE,USERNAME = L_MENU.main_loop()
+
+    if MODE == "GARAGE":
+        G_MENU = menu.GarageMenu(SCREEN,COINS,USERNAME,MENU_IMAGE_PATH,COIN_IMAGE_PATH,FPS)
+        MODE = G_MENU.main_loop()
         
     if MODE == "SP_RACE":
         # run SP_RACE
