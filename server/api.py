@@ -2,16 +2,38 @@
 # using flask_restful
 from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
+import json
+import os
 
 app = Flask(__name__)
 api = Api(app)
 
 DB_PATH = "users.txt"
 COINS_PATH = "coins.txt"
+PLAYERS_FOLDER = "players_data"
+UPGRADES_PATH = "CAR_UPGRADES.json"
 INVALID_CHARS = ["/n",":"]
 
 USR_LEN = 7
 PWD_LEN = 12
+
+def create_new_car_data(FILENAME,CAR_UPG_PATH, engine_lvl, gearbox_lvl):
+    with open(CAR_UPG_PATH, 'r') as f:
+        upgrades = json.load(f)
+    with open(FILENAME, 'w') as f:
+        data = {
+
+            "max_vel": upgrades['engine_upgrades'][engine_lvl]['top_speed'],
+            "offroad_vel": 1.5,
+            "acceleration":  upgrades['gearbox_upgrades'][gearbox_lvl]['acceleration'],
+            "deceleration": 0.05,
+            "rotation_speed": 2,
+            "engine_level": engine_lvl,
+            "gearbox_level": gearbox_lvl,
+            "engine_label": upgrades['engine_upgrades'][engine_lvl]['name'],
+            "gearbox_label": upgrades['gearbox_upgrades'][gearbox_lvl]['name']
+        }
+        json.dump(data, f)
 
 
 def load_coins(path):
@@ -99,6 +121,7 @@ class Register(Resource):
             if valid_credentials(username,password):
                 add_credentials(DB_PATH,username,password)
                 create_balance(COINS_PATH,username,0)
+                create_new_car_data(os.path.join(PLAYERS_FOLDER,username + '.json'),UPGRADES_PATH,0,0)
                 return True, 201
             else:
                 return {"register":False, "message":"special chars"}
@@ -120,6 +143,15 @@ class SetCoins(Resource):
         stored_coins = load_coins(COINS_PATH)
         balance = get_balance(stored_coins,username)
         return {"balance": balance}
+    
+class Car(Resource):
+    def get(self,username):
+        if not check_username(DB_PATH,username):
+            return False
+        with open(os.path.join(PLAYERS_FOLDER,username)) as f:
+            data = json.load(f)
+            return data
+
 
         
 
