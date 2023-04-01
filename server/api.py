@@ -128,6 +128,7 @@ class SetCoins(Resource):
 api.add_resource(Login,'/login')
 api.add_resource(Register,'/register')
 api.add_resource(GetCoins,'/balance/<string:username>')
+api.add_resource(SetCoins,'/balance/set/<string:username>/<int:amount>')
 
 # @app.route('/login', methods=['GET'])
 # def login():
