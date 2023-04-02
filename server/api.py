@@ -148,11 +148,18 @@ class Car(Resource):
     def get(self,username):
         if not check_username(DB_PATH,username):
             return False
-        with open(os.path.join(PLAYERS_FOLDER,username)) as f:
+        with open(os.path.join(PLAYERS_FOLDER,username+'.json'),'r') as f:
             data = json.load(f)
             return data
 
-
+    def post(self,username):
+        if not check_username(DB_PATH,username):
+            return False
+        with open(os.path.join(PLAYERS_FOLDER,username+'.json'),'w') as f:
+            
+            data = request.json
+            print(data)
+            json.dump(data,f)
         
 
 
@@ -161,6 +168,7 @@ api.add_resource(Login,'/login')
 api.add_resource(Register,'/register')
 api.add_resource(GetCoins,'/balance/<string:username>')
 api.add_resource(SetCoins,'/balance/set/<string:username>/<int:amount>')
+api.add_resource(Car,'/car/<string:username>')
 
 # @app.route('/login', methods=['GET'])
 # def login():

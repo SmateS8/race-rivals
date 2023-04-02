@@ -91,11 +91,11 @@ class StartMenu():
         # Show the cursor
         pygame.mouse.set_visible(True)
         # check for the car_data file existion
-        try:
-            with open(CAR_DATA_PATH, 'r') as f:
-                pass
-        except FileNotFoundError:
-            create_new_car_data(CAR_UPGRADES_PATH, 0, 0)
+        # try:
+        #     with open(CAR_DATA_PATH, 'r') as f:
+        #         pass
+        # except FileNotFoundError:
+        #     create_new_car_data(CAR_UPGRADES_PATH, 0, 0) #! Replaced by cloud solution
 
         self.SCREEN = SCREEN
         self.WIDTH, self.HEIGHT = SCREEN.get_size()
@@ -271,7 +271,7 @@ class LoginMenu():
                                     mode_to_return = "START_MENU"
                                 elif response.json()["message"] == "special chars":
                                     self.error_text_surface = self.error_font.render(
-                                        'Can\'t constain special characters', False, (255, 0, 0))
+                                        'Can\'t contain special characters', False, (255, 0, 0))
                                 elif response.json()["message"] == "username exists":
                                     self.error_text_surface = self.error_font.render(
                                         'This username is already taken', False, (255, 0, 0))
@@ -307,8 +307,7 @@ class GarageMenu():
         self.buttons_width = 200
         self.buttons_height = 75
         self.USERNAME = USERNAME
-        with open(CAR_DATA_PATH, 'r') as f:
-            self.car_data = json.load(f)
+        self.car_data = requests.get(AUTH_SERVER+'/car/'+ USERNAME).json()
         with open(CAR_UPGRADES_PATH, 'r') as f:
             self.car_upgrades = json.load(f)
 
@@ -388,7 +387,6 @@ class GarageMenu():
             self.SCREEN.blit(label, self.upgrade_count_pos[1])
             #pygame.draw.rect(self.SCREEN, (255,255,255),(785,490,350,100))
             pygame.display.flip()
-        with open(CAR_DATA_PATH, 'w') as f:
-            json.dump(self.car_data,f)
+        requests.post(AUTH_SERVER+'/car/'+ self.USERNAME, json=self.car_data)
         requests.post(AUTH_SERVER+'/balance/set/'+self.USERNAME+'/'+str(self.COINS))
         return mode_to_return

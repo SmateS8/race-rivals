@@ -8,19 +8,20 @@ import pygame
 import os
 import time
 
+import requests
 import json
 from car import Car
 from map import Map
 
 # ----VARIABLES----
-CAR_DATA_PATH = "CAR_DATA.json"
+CAR_API = 'http://127.0.0.1:5000/car/'
 MAP1_FOLDER_PATH = os.path.join("Assets","Maps", "MAP1")
 TILE_SIZE = 120
 # ----CLASSES----
 
 
 class SinglePlayerRace():
-    def __init__(self, car_width, car_height, car_image_path,FPS,SCREEN):
+    def __init__(self, username ,car_width, car_height, car_image_path,FPS,SCREEN):
         #Hiding mouse cursor
         pygame.mouse.set_visible(False)
         #Screen VARs
@@ -41,8 +42,7 @@ class SinglePlayerRace():
         self.start_x = self.map.start_finish_tile[0] + TILE_SIZE/2 
         self.start_y = self.map.start_finish_tile[1] + TILE_SIZE/2 
 
-        with open(CAR_DATA_PATH, 'r') as car_data_file:
-            car_data = json.load(car_data_file)
+        car_data = requests.get(CAR_API+username).json()
 
 
         self.player_car = Car(self.start_x, self.start_y,self.map.car_start_angle, car_width, car_height, car_data['offroad_vel'],

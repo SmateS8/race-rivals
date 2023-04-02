@@ -53,7 +53,7 @@ while True:
         
     if MODE == "SP_RACE":
         # run SP_RACE
-        SP_Race = race.SinglePlayerRace(car_width=C_WIDHT,car_height=C_HEIGHT,car_image_path=LOCAL_PLAYER_CAR_IMAGE, FPS=FPS, SCREEN=SCREEN)
+        SP_Race = race.SinglePlayerRace(USERNAME, car_width=C_WIDHT,car_height=C_HEIGHT,car_image_path=LOCAL_PLAYER_CAR_IMAGE, FPS=FPS, SCREEN=SCREEN)
         SP_Race.countdown()
         SP_Race.main_loop()
         MODE = "START_MENU"
