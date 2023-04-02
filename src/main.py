@@ -57,7 +57,15 @@ while True:
         SP_Race.countdown()
         SP_Race.main_loop()
         MODE = "START_MENU"
-        
+    
+    if MODE == "MP_RACE":
+        #run MP_RACE
+        MP_RACE = race.MultiPlayerRace(USERNAME,COINS, car_width=C_WIDHT,car_height=C_HEIGHT,car_image_path=LOCAL_PLAYER_CAR_IMAGE, FPS=FPS, SCREEN=SCREEN)
+        MP_RACE.wait_for_players()
+        MP_RACE.countdown()
+        MP_RACE.main_loop()
+        MP_RACE.wait_for_opponent_finish()
+        MODE = "START_MENU"
     if MODE == "EXIT":
         break
 
