@@ -16,7 +16,9 @@ CAR_UPGRADES_PATH = "CAR_UPGRADES.json"
 MAX_PASSWORD_LEN = 12
 MAX_USERNAME_LEN = 7
 
-AUTH_SERVER = "http://127.0.0.1:5000"
+with open("CONFIG.json", 'r') as f:
+    conf = json.load(f)
+    AUTH_SERVER = f"http://{conf['server_ip']}:{conf['port']}"
 LOGIN_ENDPOINT = "/login"
 REGISTER_ENDPOINT = "/register"
 # -----FUNCs-----

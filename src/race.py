@@ -14,9 +14,11 @@ from car import Car
 from map import Map
 
 # ----VARIABLES----
-CAR_API = 'http://127.0.0.1:5000/car/'
-API = 'http://127.0.0.1:5000'
-MULTIPLAYER_SERVER = ('127.0.0.1',5555)
+with open("CONFIG.json", 'r') as f:
+    conf = json.load(f)
+    API = f"http://{conf['server_ip']}:{conf['port']}"
+
+CAR_API = API + '/car/'
 
 MAP1_FOLDER_PATH = os.path.join("Assets","Maps", "MAP1")
 TILE_SIZE = 120
