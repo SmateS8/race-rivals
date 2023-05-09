@@ -24,4 +24,8 @@
     * Navigate to the games directory and run `pip3 install requirements.txt`
 * Run PLAY.py from the repository's root directory
     * The program will not run and notify you, that you need to run it correctly.
+    ## How to run the server
+    * In the server folder run api.py with python 3 interpreter.
+        * For local use, use 127.0.0.1, for online, use server ip adress.
+        * The port is 5000 by default
  
